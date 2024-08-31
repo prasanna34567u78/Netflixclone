@@ -1,4 +1,4 @@
-import uuid
+
 from .models import Movie, Profile
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
@@ -20,11 +20,6 @@ class ProflieList(View):
         profiles=request.user.profiles.all()
         return render(request,'profileList.html',{'profiles':profiles})
         
-
-        
-
-
-
 # def ProfileList(request):
 
 
@@ -33,14 +28,14 @@ class ProflieList(View):
 class ProfileCreate(View):
     def get(self, request,*args,**kwargs):
         form=ProfileForm()
-
+         
         return render(request,'profileCreate.html',{'form':form})
     
     def post(self,request,*args,**kwargs):
         form=ProfileForm(request.POST or None)
 
         if form.is_valid():
-            
+            form.save() 
             profile=Profile.objects.create(**form.cleaned_data)
             if profile:
                 request.user.profiles.add(profile)
